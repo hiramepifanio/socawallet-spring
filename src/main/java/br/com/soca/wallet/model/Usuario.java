@@ -10,7 +10,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
-import javax.persistence.OneToMany;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -24,21 +23,12 @@ public class Usuario implements UserDetails {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 	private String nome;
+	private String sobrenome;
 	private String email;
 	private String senha;
-	@OneToMany(mappedBy = "usuario")
-	private List<Carteira> carteiras;
 
 	@ManyToMany(fetch = FetchType.EAGER)
 	private List<Perfil> perfis = new ArrayList<>();
-
-	public List<Carteira> getCarteiras() {
-		return carteiras;
-	}
-
-	public void setCarteiras(List<Carteira> carteiras) {
-		this.carteiras = carteiras;
-	}
 
 	@Override
 	public int hashCode() {
@@ -87,6 +77,14 @@ public class Usuario implements UserDetails {
 
 	public void setEmail(String email) {
 		this.email = email;
+	}
+
+	public String getSobrenome() {
+		return sobrenome;
+	}
+
+	public void setSobrenome(String sobrenome) {
+		this.sobrenome = sobrenome;
 	}
 
 	public String getSenha() {
