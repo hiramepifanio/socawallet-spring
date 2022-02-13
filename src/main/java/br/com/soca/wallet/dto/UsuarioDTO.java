@@ -1,4 +1,4 @@
-package br.com.soca.wallet;
+package br.com.soca.wallet.dto;
 
 import br.com.soca.wallet.model.Usuario;
 

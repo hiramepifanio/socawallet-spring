@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import br.com.soca.wallet.UsuarioDTO;
+import br.com.soca.wallet.dto.UsuarioDTO;
 import br.com.soca.wallet.model.Usuario;
 import br.com.soca.wallet.repository.UsuarioRepository;
 
