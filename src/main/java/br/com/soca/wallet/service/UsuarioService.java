@@ -6,50 +6,54 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import br.com.soca.wallet.dto.UsuarioDTO;
-import br.com.soca.wallet.form.AtualizarUsuarioForm;
-import br.com.soca.wallet.form.CadastroNovoUsuarioForm;
+import br.com.soca.wallet.exception.ModelException;
+import br.com.soca.wallet.form.UsuarioAtualizacaoForm;
+import br.com.soca.wallet.form.UsuarioCadastroForm;
 import br.com.soca.wallet.model.Usuario;
 import br.com.soca.wallet.repository.UsuarioRepository;
-import br.com.soca.wallet.util.ModelException;
+import br.com.soca.wallet.util.ContextUtil;
 
 @Service
 public class UsuarioService {
 
 	@Autowired
 	UsuarioRepository usuarioRepository;
-	
-	public UsuarioDTO cadastrar(CadastroNovoUsuarioForm form) {
+
+	public UsuarioDTO detalhar() {
+		Usuario usuario = ContextUtil.getUsuario();
 		
+		return new UsuarioDTO(usuario);
+	}
+
+	public UsuarioDTO cadastrar(UsuarioCadastroForm form) {
+
 		if (form == null)
 			throw new ModelException("Cadastro não informado.");
-		
+
 		form.verificarEntradas();
 
 		Usuario novoUsuario = form.getNovoUsuario();
 
 		Optional<Usuario> optional = usuarioRepository.findByEmail(novoUsuario.getEmail());
 
-		if (optional.isPresent()) {
+		if (optional.isPresent())
 			throw new ModelException("Email já cadastrado.");
-		}
 
 		return new UsuarioDTO(usuarioRepository.save(novoUsuario));
 	}
 
-	public UsuarioDTO atualizar(Integer id, AtualizarUsuarioForm form) {
-		
+	public UsuarioDTO atualizar(UsuarioAtualizacaoForm form) {
+
 		if (form == null)
 			throw new ModelException("Cadastro não informado.");
-		
-		form.verificarEntradas();
-		
-		Optional<Usuario> optional = usuarioRepository.findById(id);
 
-		if (!optional.isPresent())
-			throw new ModelException("Usuário inexistente.");
-		
-		Usuario usuarioAtualizado = form.atualizarUsuario(optional.get());
-		
-		return new UsuarioDTO(usuarioRepository.save(usuarioAtualizado));
+		Usuario usuario = ContextUtil.getUsuario();
+
+		if (!usuario.autenticarSenha(form.getSenha()))
+			throw new ModelException("Senha incorreta.");
+
+		form.atualizarUsuario(usuario);
+
+		return new UsuarioDTO(usuarioRepository.save(usuario));
 	}
 }

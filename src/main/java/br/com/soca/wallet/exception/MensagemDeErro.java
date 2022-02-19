@@ -1,4 +1,4 @@
-package br.com.soca.wallet.util;
+package br.com.soca.wallet.exception;
 
 public class MensagemDeErro {
 

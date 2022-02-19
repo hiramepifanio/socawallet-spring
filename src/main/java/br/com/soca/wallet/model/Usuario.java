@@ -13,6 +13,7 @@ import javax.persistence.ManyToMany;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 @Entity
 public class Usuario implements UserDetails {
@@ -29,6 +30,10 @@ public class Usuario implements UserDetails {
 
 	@ManyToMany(fetch = FetchType.EAGER)
 	private List<Perfil> perfis = new ArrayList<>();
+	
+	public boolean autenticarSenha(String senha) {
+		return new BCryptPasswordEncoder().matches(senha, this.senha);
+	}
 
 	@Override
 	public int hashCode() {

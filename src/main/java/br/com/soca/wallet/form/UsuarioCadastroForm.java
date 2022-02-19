@@ -2,10 +2,10 @@ package br.com.soca.wallet.form;
 
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
+import br.com.soca.wallet.exception.FormException;
 import br.com.soca.wallet.model.Usuario;
-import br.com.soca.wallet.util.ModelException;
 
-public class CadastroNovoUsuarioForm {
+public class UsuarioCadastroForm implements Form {
 
 	private String nome;
 	private String sobrenome;
@@ -25,17 +25,17 @@ public class CadastroNovoUsuarioForm {
 
 	public void verificarEntradas() {
 		if (nome == null || nome.isEmpty())
-			throw new ModelException("Informe seu nome.");
+			throw new FormException("Informe seu nome.");
 		if (sobrenome == null || sobrenome.isEmpty())
-			throw new ModelException("Informe seu sobrenome.");
+			throw new FormException("Informe seu sobrenome.");
 		if (email == null || email.isEmpty())
-			throw new ModelException("Informe seu email.");
+			throw new FormException("Informe seu email.");
 		if (senha == null || senha.isEmpty())
-			throw new ModelException("Informe sua senha.");
+			throw new FormException("Informe sua senha.");
 		if (confirmacaoDeSenha == null || confirmacaoDeSenha.isEmpty())
-			throw new ModelException("Confirme sua senha.");
+			throw new FormException("Confirme sua senha.");
 		if (!confirmacaoDeSenha.equals(senha))
-			throw new ModelException("Confirmação de senha incorreta.");
+			throw new FormException("Confirmação de senha incorreta.");
 	}
 
 	public String getNome() {

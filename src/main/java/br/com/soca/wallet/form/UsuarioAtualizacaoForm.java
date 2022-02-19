@@ -1,32 +1,23 @@
 package br.com.soca.wallet.form;
 
 import br.com.soca.wallet.model.Usuario;
-import br.com.soca.wallet.util.ModelException;
 
-public class AtualizarUsuarioForm {
+public class UsuarioAtualizacaoForm implements Form {
 
 	private String nome;
 	private String sobrenome;
 	private String email;
 	private String senha;
 
-	public Usuario atualizarUsuario(Usuario u) {
-		u.setNome(nome);
-		u.setSobrenome(sobrenome);
-		u.setSenha(senha);
-		
-		return u;
+	public void atualizarUsuario(Usuario usuario) {
+		if (!(nome == null)) usuario.setNome(nome);
+		if (!(sobrenome == null)) usuario.setSobrenome(sobrenome);
+		if (!(email == null)) usuario.setEmail(email);
 	}
 	
+	@Override
 	public void verificarEntradas() {
-		if (nome == null || nome.isEmpty())
-			throw new ModelException("Informe seu nome.");
-		if (sobrenome == null || sobrenome.isEmpty())
-			throw new ModelException("Informe seu sobrenome.");
-		if (email == null || email.isEmpty())
-			throw new ModelException("Informe seu email.");
-		if (senha == null || senha.isEmpty())
-			throw new ModelException("Informe sua senha.");
+		
 	}
 
 	public String getNome() {
